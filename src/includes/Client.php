@@ -18,10 +18,11 @@ class Client extends DataObject
 	
 	public function __construct($client_id = 0, $is_stub = true)
 	{
-
+		$this->id = $client_id;
+		$this->is_stub = $is_stub;
 	}
 
-	protected function validate()
+	public function validate()
 	{
 		return true;
 	}

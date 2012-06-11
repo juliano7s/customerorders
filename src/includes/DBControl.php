@@ -3,7 +3,7 @@
  *	Database control functions
  *
  */
-require_once(realpath(dirname(__FILE__) . "/config.php")); 
+require_once(realpath(dirname(__FILE__) . "/../config.php")); 
 require_once(realpath(dirname(__FILE__) . "/Singleton.php"));
 
 /* onde fica o usuario e senha agora, nivel acima do public_html */

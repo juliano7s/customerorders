@@ -26,7 +26,7 @@ class Order extends DataObject
 
 	}
 
-	protected function validate()
+	public function validate()
 	{
 		return true;
 	}
