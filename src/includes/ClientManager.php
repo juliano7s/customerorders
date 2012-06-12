@@ -10,7 +10,7 @@ class ClientManager
 		$DBCtrl = DBControl::getInstance();
 		$DBCtrl->connect();
 
-		$result = mysql_query(sprintf(ClientManager::CLIENTS_BY_NAME, "'" . $name . "%" . "'"));
+		$result = mysql_query(sprintf(ClientManager::CLIENTS_BY_NAME, "'" . "%" . $name . "%" . "'"));
 
 		$clients = array();
 		$i = 0;

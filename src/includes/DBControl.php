@@ -15,9 +15,6 @@ final class DBControl extends Singleton
 	private $link;
 	private $connection_count = 0;
 	private $dbname = "customerorders";
-	//private $username = "nights10_user";
-	//private $password = "u57l;WWIXbQ.";
-
 	private $username = "root";
 	private $password = "jegues";
 	private $hostname = "localhost";
