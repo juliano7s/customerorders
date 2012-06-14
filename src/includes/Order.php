@@ -12,18 +12,22 @@ class Order extends DataObject
 	protected $cost = NULL;
 	protected $description = NULL;
 	protected $owner = NULL;
+	protected $delivered = NULL;
 
 	protected $_fieldAttrMapping = array(
 			"orderid" => "id",
+			"request_date" => "requestDate",
+			"delivery_date" => "deliveryDate",
 			);
 
 	protected $_objectMapping = array(
 			"clientid" => "Client"
 			);
-	
+
 	public function __construct($order_id = 0, $is_stub = true)
 	{
-
+		$this->id = $order_id;
+		$this->is_stub = $is_stub;
 	}
 
 	public function validate()

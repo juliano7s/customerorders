@@ -5,6 +5,29 @@ require_once(realpath(dirname(__FILE__) . "/Client.php"));
 
 class ClientManager
 {
+	public static function clients()
+	{
+		$DBCtrl = DBControl::getInstance();
+		$DBCtrl->connect();
+
+		$result = mysql_query(ClientManager::ALL_CLIENTS);
+
+		$clients = array();
+		$i = 0;
+		if ($result)
+		{
+			while ($row = mysql_fetch_array($result, MYSQL_NUM))
+			{
+				$clients[$i] = new Client($row[0]);
+				$i++;
+			}
+			mysql_free_result($result);
+		}
+
+		$DBCtrl->disconnect();
+		return $clients;
+	}
+
 	public static function clientsByName($name)
 	{
 		$DBCtrl = DBControl::getInstance();
@@ -29,5 +52,6 @@ class ClientManager
 	}
 
 	const CLIENTS_BY_NAME = "SELECT clientid FROM clients WHERE name LIKE %s";
+	const ALL_CLIENTS = "SELECT clientid FROM clients";
 }
 ?>

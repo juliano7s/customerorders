@@ -5,7 +5,8 @@ require_once(INCLUDES_PATH . "/Client.php");
 
 $clientid = isset($_POST['clientid']) ? $_POST['clientid'] : NULL;
 
-$client = new Client(substr($clientid, 6));
+//$client = new Client(substr($clientid, 6));
+$client = new Client($clientid);
 $clientjson = array();
 $clientjson["client"] = array(
 	"id" => $client->getId(),

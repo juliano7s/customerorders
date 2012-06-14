@@ -43,7 +43,7 @@ abstract class DataObject {
 			$field = substr($field, 1);
 
 		switch ($prefix) {
-			case "get": 
+			case "get":
 				$this->stub();
 			return $this->{$field};
 			break;
@@ -53,7 +53,7 @@ abstract class DataObject {
 			break;
 
 			default: throw new Exception("Unknown function prefix: " . $prefix . " - should be 'get' or 'set'");
-		}   
+		}
 
 		/* needed for making sure it didn't fail */
 		return true;
@@ -161,8 +161,8 @@ abstract class DataObject {
 			$fieldvalues[] = sprintf("`%s` = %s", $column, $DBCtrl->parse($cell));
 		}
 
-		
-		$query .= implode($fieldvalues, ",");	
+
+		$query .= implode($fieldvalues, ",");
 
 		if ($this->id > 0)
 			$query .= sprintf(" WHERE `%s` = %s", $attrFieldMapping["id"], $DBCtrl->parse($this->id));
