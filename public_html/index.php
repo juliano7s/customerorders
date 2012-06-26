@@ -27,7 +27,9 @@ function cleanClientForm()
 	$("#client-id").val("");
 	$("#client-name").val("");
 	$("#client-email").val("");
+	$("#client-email").attr("disabled", false);
 	$("#client-phone").val("");
+	$("#client-phone").attr("disabled", false);
 }
 
 function cleanOrderForm()
@@ -40,18 +42,13 @@ function cleanOrderForm()
 	$("#order-description").val("");
 }
 
-function cleanClientList()
-{
-	$('#client-list').html("");
-	$('#client-list').hide();
-}
-
-
 //$(document).ready(function() {
 jQuery(function($) {
 	//mask date input
 	$(".date").mask("99/99/9999");
 	//$(".currency").mask("");
+	cleanClientForm();
+	cleanOrderForm();
 
 	/* http://net.tutsplus.com/tutorials/javascript-ajax/how-to-use-the-jquery-ui-autocomplete-widget/ */
 	$("#client-name").autocomplete({
@@ -82,7 +79,6 @@ jQuery(function($) {
 			},
 
 		select: function(event, ui) {
-//				alert("label: " + ui.item.label + " - value: " + ui.item.id);
 				getClientInfo(ui.item.id);
 			},
 		});
@@ -126,7 +122,6 @@ jQuery(function($) {
 		});
 	$("#clean-order").click(function()
 		{
-			cleanClientList();
 			cleanClientForm();
 			cleanOrderForm();
 		});
@@ -134,8 +129,6 @@ jQuery(function($) {
 	$("#add-order-form").submit(function()
 		{
 			/* confirm if client is to be added */
-			if (!confirm("bla"))
-				return false;
 		});
 
 	$("#add-order").hide();
@@ -149,17 +142,34 @@ jQuery(function($) {
 		}
 	});
 
-	$(".delivered").click(function()
+	$(".deliveredajax").click(function()
 		{
+			_orderid = $(this).parent().attr("id");
+			if ($("#" + _orderid).hasClass("delivered"))
+			{
+				if (!confirm("Esse pedido já foi entregue. Definir como não-entregue?"))
+					return false;
+			} else
+			{
+				if (!confirm("Marcar pedido como entregue?"))
+					return false;
+			}
+
 			$.ajax({
 				type: "POST",
-				url: "control/order_delivered.php",
-				data: {: request.term },
+				url: "control/edit_order_ajax.php",
+				data: { orderid: _orderid, setorderdelivered: "1" },
 				dataType: "json",
 				success:
-					function(data)
+					function(orderdata)
 					{
-						//set delivered td 1 or 0
+						if (orderdata.delivered == "1")
+						{
+							$("#order" + orderdata.id).addClass("delivered");
+						} else
+						{
+							$("#order" + orderdata.id).removeClass("delivered");
+						}
 					}
 			});
 	});
@@ -182,7 +192,9 @@ function getClientInfo(_clientId)
 				$("#client-id").val(_client.id);
 				$("#client-name").val(_client.name);
 				$("#client-email").val(_client.email);
+				$("#client-email").attr("disabled", "true");
 				$("#client-phone").val(_client.phone);
+				$("#client-phone").attr("disabled", "true");
 			},
 		dataType: "json"
 	});

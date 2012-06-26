@@ -46,7 +46,8 @@ font-size: 10pt;
 }
 
 #container {
-width: 100%;
+/*width: 100%;*/
+padding: 0 15px 0 15px;
 }
 
 #menu {
@@ -62,10 +63,13 @@ font-size: 10pt;
 #add-order {
 background-color: white;
 height: 330px;
-border-top: 2px solid black;
-border-bottom: 2px solid black;
-margin: 10px 0 10px 0;
+border-top: 1px solid black;
+border-bottom: 1px solid black;
+margin: 10px 0 30px 0;
 padding: 10px 20px 10px 20px;
+}
+#add-order table td{
+font-weight: bold;
 }
 
 #add-order-client {
@@ -85,6 +89,10 @@ float: left;
 height: 300px;
 /*width: 45%;*/
 }
+.add-order-table {
+text-align: left;
+width: 100%;
+}
 
 #submit-order {
 float: left;
@@ -98,11 +106,6 @@ float: left;
 margin: 10px 0 0 20px;
 /*width: 10%;*/
 font-size: 13pt;
-}
-
-.add-order-table {
-text-align: left;
-width: 100%;
 }
 
 fieldset {
@@ -120,14 +123,35 @@ margin: 0 0 10px 0;
 background-color: white;
 }
 
-.client-item {
-float: left;
-width: 22%;
-margin: 0 5px 0 0;
-}
-
 #client-info{
 margin: 10px 0 20px 0;
+}
+#client-info fieldset {
+background-color: white;
+}
+#client-info div {
+font-weight: bold;
+}
+.client-item {
+float: left;
+/*width: 25%;*/
+margin: 0 15px 0 0;
+}
+
+
+#order-info{
+margin: 10px 0 20px 0;
+}
+#order-info fieldset {
+background-color: white;
+}
+.edit-order-table {
+text-align: left;
+width: 80%;
+font-weight: bold;
+}
+#order-info div {
+font-weight: bold;
 }
 
 #order-list-header {
@@ -147,12 +171,6 @@ border-bottom: 1px solid #BBB;
 background-color: white;
 }
 
-.order-item {
-float: left;
-width: 12%;
-margin: 0 5px 0 0;
-}
-
 #order-list {
 width: 100%;
 }
@@ -161,6 +179,7 @@ width: 100%;
 width: 100%;
 border-collapse: collapse;
 border: 1px solid black;
+background-color: white;
 }
 
 #order-list-table th, #order-list-table td {
@@ -173,4 +192,20 @@ text-align: center;
 
 #order-list-table td.center {
 text-align: center;
+}
+
+.order-list-item:hover {
+background-color: #FFC;
+}
+
+.deliveredajax {
+cursor: pointer;
+background-color: gray;
+}
+
+.orderlate, .orderlate:hover {
+background-color: #FAA;
+}
+.delivered, .delivered:hover {
+background-color: #AFA;
 }

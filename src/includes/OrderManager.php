@@ -44,7 +44,7 @@ class OrderManager
 	}
 
 	const ALL_ORDERS = "SELECT orderid FROM orders WHERE ";
-	const ALL_ORDERS_ORDERBY = " ORDER BY orders.delivery_date DESC";
+	const ALL_ORDERS_ORDERBY = " ORDER BY orders.delivery_date ASC";
 	const SUBQUERY_CLIENTID = " orders.clientid = %s ";
 	const SUBQUERY_REQUESTDATE = " orders.request_date = %s ";
 	const SUBQUERY_DELIVERYDATE = " orders.delivery_date = %s ";

@@ -13,6 +13,8 @@ if ($client != NULL)
 ?>
 
 	<div id="client-info">
+		<fieldset>
+		<legend>Editar Cliente</legend>
 		<form action="control/edit_client.php" method="post">
 		<input type="hidden" id="client-info-id" name="clientinfoid" value="<?php echo $client->getId(); ?>" />
 		<div class="client-item">
@@ -23,18 +25,53 @@ if ($client != NULL)
 		</div>
 		<div class="client-item">
 			Telefones: <input type="text" id="client-info-phone" name="clientinfophone"  value="<?php echo $client->getPhone(); ?>" size="30" />
-		</div>
-		<div class="client-item">
 			<input type="submit" value="Editar Cliente" />
 		</div>
 
 		<div style="clear:both"></div>
 		</form>
+		</fieldset>
 	</div>
 
 <?php
-}
-/* End Client info */
+} /* End Client info */
+
+$orderid = isset($_GET["orderid"]) ? $_GET["orderid"] : NULL;
+
+/* Order info */
+$order = ($orderid != NULL) ? new Order($orderid) : NULL;
+if ($order != NULL)
+{
+	$dlvdate = new DateTime($order->getDeliveryDate());
+	$reqdate = new DateTime($order->getRequestDate());
+	
+?>
+
+	<div id="order-info">
+		<fieldset>
+		<legend>Editar Pedido</legend>
+		<form action="control/edit_order.php" method="post">
+		<input type="hidden" id="order-info-id" name="orderid" value="<?php echo $order->getId(); ?>" />
+		<table class="edit-order-table">
+		<tr>
+			<td>Cliente: </td><td><a href="index.php?pid=orders&clientid=<?php echo $order->getClient()->getId() ?>"><?php echo $order->getClient()->getName(); ?></a></td>
+			<td>Recebimento: </td><td><input class="date" type="text" id="order-info-reqdate" name="orderreqdate"  value="<?php echo $reqdate->format("d/m/Y"); ?>" size="30" /></td>
+		</tr>
+		<tr>
+			<td>Valor: </td><td><input type="text" id="order-info-value" name="ordervalue"  value="<?php echo $order->getValue(); ?>" size="30" /></td>
+			<td>Entrega: </td><td><input class="date" type="text" id="order-info-dlvdate" name="orderdlvdate"  value="<?php echo $dlvdate->format("d/m/Y"); ?>" size="30" /></td>
+		</tr>
+		<tr><td>Custo: </td><td><input type="text" id="order-info-cost" name="ordercost"  value="<?php echo $order->getCost(); ?>" size="30" /></td></tr>
+		<tr><td>Responsável: </td><td><input type="text" id="order-info-owner" name="orderowner"  value="<?php echo $order->getOwner(); ?>" size="30" /></td></tr>
+		<tr><td>Descrição: </td><td colspan="3"><textarea rows="10" cols="55" id="order-info-description" name="orderdescription"><?php echo $order->getDescription(); ?></textarea></td></tr>
+		</table>
+		<input type="submit" value="Editar Pedido" />
+		</form>
+		</fieldset>
+	</div>
+
+<?php
+} /* End Order info */
 
 $dlvdate = isset($_GET["dlvdate"]) ? $_GET["dlvdate"] : NULL;
 $reqdate = isset($_GET["reqdate"]) ? $_GET["reqdate"] : NULL;
@@ -44,46 +81,6 @@ $dlvstr = ($dlvdatetime != NULL) ? $dlvdatetime->format("Y-m-d") : NULL;
 $reqstr = ($reqdatetime != NULL) ? $reqdatetime->format("Y-m-d") : NULL;
 $orders = OrderManager::orders($clientid, $dlvstr, $reqstr);
 
-if (0) {
-
-?>
-	<div id="order-list-header" class="order-list-item" >
-		<div class="order-item" style="width: 20%">Cliente</div>
-		<div class="order-item" style="width: 9%">Data do Pedido</div>
-		<div class="order-item" style="width: 9%">Data da Entrega</div>
-		<div class="order-item" style="width: 7%">Valor</div>
-		<div class="order-item" style="width: 7%">Custo</div>
-		<div class="order-item" style="width: 20%">Descrição</div>
-		<div class="order-item" style="width: 10%">Responsável</div>
-		<div style="clear:both"></div>
-	</div>
-<?php
-
-/* Orders in a div*/
-foreach ($orders as $order)
-{
-	$reqDate = new DateTime($order->getRequestDate());
-	$dlvDate = new DateTime($order->getDeliveryDate());
-?>
-	<div id=<?php echo "\"order" . $order->getId() . "\" class=\"order-list-item\""; ?> >
-		<div class="order-item" style="width: 20%">
-			<a href="index.php?pid=orders&clientid=<?php echo $order->getClient()->getId() ?>">
-			<?php echo $order->getClient()->getName(); ?>
-			</a>
-		</div>
-		<div class="order-item" style="width: 9%"><?php echo $reqDate->format("d/m/Y"); ?></div>
-		<div class="order-item" style="width: 9%"><?php echo $dlvDate->format("d/m/Y"); ?></div>
-		<div class="order-item" style="width: 7%"><?php echo "R$ " . $order->getValue(); ?></div>
-		<div class="order-item" style="width: 7%"><?php echo "R$ " . $order->getCost(); ?></div>
-		<div class="order-item" style="width: 20%"><?php echo $order->getDescription(); ?></div>
-		<div class="order-item" style="width: 10%"><?php echo $order->getOwner(); ?></div>
-		<div style="clear:both"></div>
-	</div>
-<?php
-}
-
-} //if 0
-
 if (count($orders) > 0)
 {
 ?>
@@ -91,6 +88,7 @@ if (count($orders) > 0)
 	<div id="order-list">
 	<table id="order-list-table">
 	<tr>
+		<th>!</th>
 		<th>!</th>
 		<th width="25%">Cliente</th>
 		<th>Recebimento</th>
@@ -103,32 +101,36 @@ if (count($orders) > 0)
 
 <?php
 
-/* Orders in a table */
-foreach ($orders as $order)
-{
-	$reqDate = new DateTime($order->getRequestDate());
-	$dlvDate = new DateTime($order->getDeliveryDate());
+	/* Orders in a table */
+	foreach ($orders as $order)
+	{
+		$reqDate = new DateTime($order->getRequestDate());
+		$dlvDate = new DateTime($order->getDeliveryDate());
 ?>
-	<tr>
-		<td class="center delivered"><?php echo $order->getDelivered(); ?></td>
+		<tr id="order<?php echo $order->getId(); ?>" class="order-list-item <?php if ($dlvDate < (new DateTime())) echo "orderlate" ?> <?php if ($order->getDelivered() == 1) echo "delivered" ?>">
+		<td title="Clique para marcar pedido como entregue" class="center deliveredajax">
+		<font style="text-decoration: underline; font-weight: bold; color: blue;">¬</font><?php $order->getDelivered(); ?>
+		</td>
+		<td class="center" title="Clique aqui para editar o pedido"><a href="?index.php?pid=orders&orderid=<?php echo $order->getId(); ?>">~</a></td>
 		<td width="25%">
-			<a href="index.php?pid=orders&clientid=<?php echo $order->getClient()->getId() ?>">
-			<?php echo $order->getClient()->getName(); ?>
-			</a>
+		<a href="index.php?pid=orders&clientid=<?php echo $order->getClient()->getId() ?>">
+		<?php echo $order->getClient()->getName(); ?>
+		</a>
 		</td>
 		<td class="center"><?php echo $reqDate->format("d/m/Y"); ?></td>
 		<td class="center"><?php echo $dlvDate->format("d/m/Y"); ?></td>
-		<td><?php echo "R$ " . $order->getValue(); ?></td>
-		<td><?php echo "R$ " . $order->getCost(); ?></td>
+		<td><?php echo "R$ " . str_replace('.',',',$order->getValue()); ?></td>
+		<td><?php echo "R$ " . str_replace('.',',',$order->getCost()); ?></td>
 		<td width="25%"><?php echo $order->getDescription(); ?></td>
 		<td class="center"><?php echo $order->getOwner(); ?></td>
-	</tr>
+		</tr>
 
 <?php
-}
-
-}
+	}
 ?>
-
 	</table>
 	</div>
+<?php
+} //end if (count($orders)
+?>
+

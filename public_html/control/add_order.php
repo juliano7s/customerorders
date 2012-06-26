@@ -38,12 +38,19 @@ if ($clientid == 0 || trim($clientid) == "")
 	$client = new Client($clientid);
 }
 $order = new Order();
-$order->setRequestDate(DateTime::createFromFormat("d/m/Y",$orderrequestdate)->format("Y-m-d"));
-$order->setDeliveryDate(DateTime::createFromFormat("d/m/Y",$orderdeliverydate)->format("Y-m-d"));
-$order->setValue(number_format(str_replace(',', '.',$ordervalue),2,'.',''));
-$order->setCost(number_format(str_replace(',', '.',$ordercost),2,'.',''));
-$order->setOwner($orderowner);
-$order->setDescription($orderdescription);
+if ($orderrequestdate != NULL)
+	$order->setRequestDate(DateTime::createFromFormat("d/m/Y",$orderrequestdate)->format("Y-m-d"));
+if ($orderdeliverydate != NULL)
+	$order->setDeliveryDate(DateTime::createFromFormat("d/m/Y",$orderdeliverydate)->format("Y-m-d"));
+if ($ordervalue != NULL)
+	$order->setValue(number_format(str_replace(',', '.',$ordervalue),2,'.',''));
+if ($ordercost != NULL)
+	$order->setCost(number_format(str_replace(',', '.',$ordercost),2,'.',''));
+if ($orderowner != NULL)
+	$order->setOwner($orderowner);
+if ($orderdescription != NULL)
+	$order->setDescription($orderdescription);
+$order->setDelivered(0);
 $order->setClient($client);
 
 /* TODO try/catch */
