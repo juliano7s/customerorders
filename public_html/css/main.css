@@ -22,6 +22,10 @@ padding: 0 0 100px 0;
 height: 100%;
 }
 
+a:link, a:visited {
+color: blue;
+}
+
 #header,#content{
 width:100%;
 }
