@@ -238,18 +238,18 @@ function getClientInfo(_clientId)
 		<table cellspacing="5px" class="add-order-table">
 		<tr>
 			<td>Recebimento: </td><td><input class="date" type="text" name="orderrequestdate" id="order-request-date" /></td>
-			<td>Entrega: </td><td><input class="date" type="text" name="orderdeliverydate" id="order-delivery-date" /></td>
+			<td>Entregar em: </td><td><input class="date" type="text" name="orderdeliverydate" id="order-delivery-date" /></td>
 		</tr>
 		<tr>
 			<td>Valor: </td><td><input type="text" name="ordervalue" id="order-value" /></td>
-			<td>Custo: </td><td><input type="text" name="ordercost" id="order-cost" /></td>
+			<td>Sinal: </td><td><input type="text" name="ordercost" id="order-cost" /></td>
 		</tr>
 		<tr><td>Responsável: </td><td colspan="3"><input type="text" name="orderowner" id="order-owner" size="40"/></td></tr>
 		<tr><td>Descrição: </td><td colspan="3"><textarea name="orderdescription" id="order-description" rows="10" cols="55"></textarea></td></tr>
 		</table>
 		</fieldset>
 		</div>
-
+		
 		<input id="submit-order" type="submit" value="Enviar" />
 		<input id="clean-order" type="button" value="Limpar" />
 
