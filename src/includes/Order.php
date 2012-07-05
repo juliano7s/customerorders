@@ -13,6 +13,7 @@ class Order extends DataObject
 	protected $description = NULL;
 	protected $owner = NULL;
 	protected $delivered = NULL;
+	protected $ready = NULL;
 
 	protected $_fieldAttrMapping = array(
 			"orderid" => "id",
@@ -37,6 +38,7 @@ class Order extends DataObject
 
 	const DB_TABLE = "orders";
 	const LOAD_BY_ID_QUERY = "SELECT * FROM orders WHERE orders.orderid = %s";
+	const DELETE_BY_ID_QUERY = "DELETE FROM orders WHERE orders.orderid = %s";
 }
 
 ?>

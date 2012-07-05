@@ -15,7 +15,7 @@ class Client extends DataObject
 
 	protected $_objectMapping = array(
 			/* "settingsid" => "UserSettings" */);
-	
+
 	public function __construct($client_id = 0, $is_stub = true)
 	{
 		$this->id = $client_id;
@@ -29,6 +29,7 @@ class Client extends DataObject
 
 	const DB_TABLE = "clients";
 	const LOAD_BY_ID_QUERY = "SELECT * FROM clients WHERE clients.clientid = %s";
+	const DELETE_BY_ID_QUERY = "DELETE FROM clients WHERE clients.clientid = %s";
 }
 
 ?>

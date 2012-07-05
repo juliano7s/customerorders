@@ -1,6 +1,9 @@
 <?php
 
 require_once(realpath(dirname(__FILE__) . "/../src/config.php"));
+require_once(INCLUDES_PATH . "/SessionControl.php");
+
+$Session = SessionControl::getInstance();
 
 ?>
 
@@ -144,15 +147,17 @@ jQuery(function($) {
 
 	$(".deliveredajax").click(function()
 		{
-			_orderid = $(this).parent().attr("id");
-			if ($("#" + _orderid).hasClass("delivered"))
+			_orderid = $(this).parent().parent().attr("id");
+			if ($("#" + _orderid).hasClass("orderdelivered"))
 			{
 				if (!confirm("Esse pedido já foi entregue. Definir como não-entregue?"))
 					return false;
+				$(this).attr("title", "Marcar pedido como entregue");
 			} else
 			{
 				if (!confirm("Marcar pedido como entregue?"))
 					return false;
+				$(this).attr("title", "Marcar pedido como não-entregue");
 			}
 
 			$.ajax({
@@ -163,15 +168,83 @@ jQuery(function($) {
 				success:
 					function(orderdata)
 					{
-						if (orderdata.delivered == "1")
+						if (orderdata.ready == "1")
 						{
-							$("#order" + orderdata.id).addClass("delivered");
+							$("#order" + orderdata.id).addClass("orderready");
 						} else
 						{
-							$("#order" + orderdata.id).removeClass("delivered");
+							$("#order" + orderdata.id).removeClass("orderready");
+						}
+
+						if (orderdata.delivered == "1")
+						{
+							$("#order" + orderdata.id).addClass("orderdelivered");
+						} else
+						{
+							$("#order" + orderdata.id).removeClass("orderdelivered");
 						}
 					}
 			});
+	});
+
+	$(".readyajax").click(function()
+		{
+			_orderid = $(this).parent().parent().attr("id");
+			if ($("#" + _orderid).hasClass("orderready"))
+			{
+				if (!confirm("Esse pedido está pronto. Definir como não-pronto?"))
+					return false;
+				$(this).attr("title", "Marcar pedido como pronto");
+			} else
+			{
+				if (!confirm("Marcar pedido como pronto?"))
+					return false;
+				$(this).attr("title", "Marcar pedido como não-pronto");
+			}
+
+			$.ajax({
+				type: "POST",
+				url: "control/edit_order_ajax.php",
+				data: { orderid: _orderid, setorderready: "1" },
+				dataType: "json",
+				success:
+					function(orderdata)
+					{
+						if (orderdata.ready == "1")
+						{
+							$("#order" + orderdata.id).addClass("orderready");
+						} else
+						{
+							$("#order" + orderdata.id).removeClass("orderready");
+						}
+
+						if (orderdata.delivered == "1")
+						{
+							$("#order" + orderdata.id).addClass("orderdelivered");
+						} else
+						{
+							$("#order" + orderdata.id).removeClass("orderdelivered");
+						}
+					}
+			});
+	});
+
+	$(".deleteorder").click(function()
+		{
+			if (!confirm("Deseja deletar o pedido?"))
+				return false;
+			window.location.href = $(this).parent().attr("href");
+
+	});
+
+	$(".deleteclient").click(function()
+		{
+			if (!confirm("Deseja deletar o cliente?"))
+				return false;
+			if (!confirm("Todas as ordens do cliente serão também excluídas. Deletar mesmo assim?"))
+				return false;
+			window.location.href = $(this).parent().attr("href");
+
 	});
 });
 
@@ -208,11 +281,16 @@ function getClientInfo(_clientId)
 
 <?php include(TEMPLATES_PATH . "/header.php");?>
 
-
 <div id="container">
-	<div id="menu">
-		<div class="menu-item"><a id="hide-order" href="#">+ pedido</a></div>
-		<div style="clear:both;"></div>
+
+	<div id="messages">
+		<div id="error-message">
+			<?php echo $Session->getErrorMessage(); ?>
+		</div>
+
+		<div id="info-message">
+			<?php echo $Session->getMessage(); ?>
+		</div>
 	</div>
 
 	<div id="add-order">
@@ -250,7 +328,7 @@ function getClientInfo(_clientId)
 		</table>
 		</fieldset>
 		</div>
-		
+
 		<input id="submit-order" type="submit" value="Enviar" />
 		<input id="clean-order" type="button" value="Limpar" />
 
@@ -279,6 +357,9 @@ function getClientInfo(_clientId)
 
 <?php include(TEMPLATES_PATH . "/footer.php"); ?>
 
+<?php
+	$Session->clearMessages();
+?>
 
 </body>
 </html>

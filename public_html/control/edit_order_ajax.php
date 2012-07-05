@@ -6,13 +6,8 @@ require_once(INCLUDES_PATH . "/Order.php");
 /* info we may receive from user input */
 $dados = array(
 		"setorderdelivered",
-		"orderid",
-		"orderrequesdate",
-		"orderdeliverydate",
-		"ordervalue",
-		"ordercost",
-		"orderowner",
-		"orderdescription");
+		"setorderready",
+		"orderid");
 
 foreach ($dados as $dado) {
 	${$dado} = isset($_POST[$dado]) ? $_POST[$dado] : NULL;
@@ -33,29 +28,19 @@ if ($orderid != NULL && is_numeric($orderid))
 			$order->setDelivered(0);
 	}
 
-	if ($orderrequesdate != NULL)
-		$order->setRequestDate(DateTime::createFromFormat("d/m/Y", $orderrequestdate)->format("Y-m-d"));
-	if ($orderdeliverydate != NULL)
-		$order->setDeliveryDate(DateTime::createFromFormat("d/m/Y", $orderdeliverydate)->format("Y-m-d"));
-	if ($ordervalue != NULL)
-		$order->setValue(number_format(str_replace(',', '.',$ordervalue),2,'.',''));
-	if ($ordercost != NULL)
-		$order->setCost(number_format(str_replace(',', '.',$ordercost),2,'.',''));
-	if ($orderowner != NULL)
-		$order->setOwner($orderowner);
-	if ($orderdescription != NULL)
-		$order->setDescription($orderdescription);
+	if ($setorderready != NULL)
+	{
+		if ($order->getReady() == 0)
+			$order->setReady(1);
+		else
+			$order->setReady(0);
+	}
 
 	$order->save();
 
 	$orderinfo["id"] = $order->getId();
 	$orderinfo["delivered"] = $order->getDelivered();
-	$orderinfo["requestdate"] = $order->getRequestDate();
-	$orderinfo["deliverydate"] = $order->getDeliveryDate();
-	$orderinfo["value"] = $order->getValue();
-	$orderinfo["cost"] = $order->getCost();
-	$orderinfo["owner"] = $order->getOwner();
-	$orderinfo["description"] = $order->getDescription();
+	$orderinfo["ready"] = $order->getReady();
 	echo json_encode($orderinfo);
 }
 ?>

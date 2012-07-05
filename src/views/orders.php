@@ -28,6 +28,8 @@ if ($client != NULL)
 			<input type="submit" value="Salvar" />
 		</div>
 
+		<a href="control/delete_client.php?clientid=<?php echo $client->getId(); ?>"><font class="deleteclient">Deletar cliente</font></a>
+
 		<div style="clear:both"></div>
 		</form>
 		</fieldset>
@@ -44,7 +46,7 @@ if ($order != NULL)
 {
 	$dlvdate = new DateTime($order->getDeliveryDate());
 	$reqdate = new DateTime($order->getRequestDate());
-	
+
 ?>
 
 	<div id="order-info">
@@ -79,7 +81,11 @@ $dlvdatetime = DateTime::createFromFormat("d/m/Y", $dlvdate);
 $reqdatetime = DateTime::createFromFormat("d/m/Y", $reqdate);
 $dlvstr = ($dlvdatetime != NULL) ? $dlvdatetime->format("Y-m-d") : NULL;
 $reqstr = ($reqdatetime != NULL) ? $reqdatetime->format("Y-m-d") : NULL;
-$orders = OrderManager::orders($clientid, $dlvstr, $reqstr);
+$late = isset($_GET["late"]) ? true : false;
+$delivered = isset($_GET["delivered"]) ? true : false;
+$ready = isset($_GET["ready"]) ? true : false;
+
+$orders = OrderManager::orders($clientid, $dlvstr, $reqstr, $late, $delivered, $ready);
 
 if (count($orders) > 0)
 {
@@ -88,8 +94,6 @@ if (count($orders) > 0)
 	<div id="order-list">
 	<table id="order-list-table">
 	<tr>
-		<th>OK</th>
-		<th>E</th>
 		<th width="25%">Cliente</th>
 		<th>Recebimento</th>
 		<th>Entregar em</th>
@@ -97,6 +101,7 @@ if (count($orders) > 0)
 		<th>Sinal</th>
 		<th width="25%">Descrição</th>
 		<th>Responsável</th>
+		<th>Editar</th>
 	</tr>
 
 	<div id="orders-summary">
@@ -119,23 +124,37 @@ if (count($orders) > 0)
 	{
 		$reqDate = new DateTime($order->getRequestDate());
 		$dlvDate = new DateTime($order->getDeliveryDate());
+
+		$orderClass = "";
+		if ($dlvDate != NULL && $dlvDate < (new DateTime()))
+			$orderClass = "orderlate";
+
+		//if ($order->getReady() == 1 && $order->getDelivered() == 0)
+		if ($order->getReady() == 1)
+			$orderClass .= " orderready";
+
+		if ($order->getDelivered() == 1)
+			$orderClass .= " orderdelivered";
 ?>
-		<tr id="order<?php echo $order->getId(); ?>" class="order-list-item <?php if ($dlvDate < (new DateTime())) echo "orderlate" ?> <?php if ($order->getDelivered() == 1) echo "delivered" ?>">
-		<td title="Clique para marcar pedido como entregue" class="center deliveredajax">
-		<font style="text-decoration: underline; font-weight: bold; color: blue;">¬</font><?php $order->getDelivered(); ?>
-		</td>
-		<td class="center" title="Clique aqui para editar o pedido"><a href="?index.php?pid=orders&orderid=<?php echo $order->getId(); ?>">~</a></td>
+		<tr id="order<?php echo $order->getId(); ?>" class="order-list-item <?php echo $orderClass;  ?>">
 		<td width="25%">
-		<a href="index.php?pid=orders&clientid=<?php echo $order->getClient()->getId() ?>">
-		<?php echo $order->getClient()->getName(); ?>
-		</a>
+			<a href="index.php?pid=orders&clientid=<?php echo $order->getClient()->getId() ?>">
+			<?php echo $order->getClient()->getName(); ?>
+			</a>
 		</td>
-		<td class="center"><?php if ($order->getRequestDate() != NULL) echo "<a href=\"index.php?pid=orders&reqdate=" . $reqDate->format("d/m/Y") . "\">" . $reqDate->format("d/m/Y") . "</a>"; ?></td>
-		<td class="center"><?php if ($order->getDeliveryDate() != NULL) echo "<a href=\"index.php?pid=orders&dlvdate=" . $dlvDate->format("d/m/Y") . "\">" . $dlvDate->format("d/m/Y") . "</a>"; ?></td>
-		<td><?php echo "R$ " . str_replace('.',',',$order->getValue()); ?></td>
-		<td><?php echo "R$ " . str_replace('.',',',$order->getCost()); ?></td>
+		<td class="center"><?php if ($reqDate != NULL) echo $reqDate->format("d/m/Y"); ?></td>
+		<td class="center"><?php if ($dlvDate != NULL) echo $dlvDate->format("d/m/Y"); ?></td>
+		<td><?php if ($order->getValue() != NULL && trim($order->getValue() != "")) echo "R$ " . str_replace('.',',',$order->getValue()); ?></td>
+		<td><?php if ($order->getCost() != NULL && trim($order->getCost() != "")) echo "R$ " . str_replace('.',',',$order->getCost()); ?></td>
 		<td width="25%"><?php echo $order->getDescription(); ?></td>
 		<td class="center"><?php echo $order->getOwner(); ?></td>
+		<td width="9%" class="orderoptions">
+			<img class="deliveredajax" title="Marcar pedido como entregue" src="img/Accept16.png" style="float: left; margin: 0 0 0 10px;" />
+			<img class="readyajax" src="img/Cut16.png" title="Marcar pedido como pronto" style="float: left"/>
+			<a href="index.php?pid=orders&orderid=<?php echo $order->getId(); ?>"><img title="Editar pedido" src="img/Edit16.png"  style="float: left"/></a>
+			<a href="control/delete_order.php?orderid=<?php echo $order->getId(); ?>"><img class="deleteorder" src="img/Delete16.png" title="Deletar pedido" style="float: left"/></a>
+			<div style = "clear: both"></div>
+		</td>
 		</tr>
 
 <?php
@@ -146,3 +165,4 @@ if (count($orders) > 0)
 <?php
 } //end if (count($orders)
 ?>
+

@@ -182,6 +182,17 @@ abstract class DataObject {
 		return true;
 	}
 
+	protected function delete()
+	{
+		$DBCtrl = DBControl::getInstance();
+		$DBCtrl->connect();
+
+		if ($this->id != 0)
+			mysql_query(sprintf($this::DELETE_BY_ID_QUERY, $DBCtrl->parse($this->id)));
+
+		$DBCtrl->disconnect();
+	}
+
 	/* Every object shall be validated before being saved to the database */
 	abstract function validate();
 
@@ -204,6 +215,7 @@ abstract class DataObject {
 
 	const DB_TABLE = "_undefined_";
 	const LOAD_BY_ID_QUERY = "_undefined_";
+	const DELETE_BY_ID_QUERY = "_undefined_";
 }
 
 ?>

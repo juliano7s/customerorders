@@ -19,7 +19,6 @@ font-size:13pt;
 color:#454545;
 margin: 0 auto;
 padding: 0 0 100px 0;
-height: 100%;
 }
 
 a:link, a:visited {
@@ -43,15 +42,30 @@ font-weight: bold;
 color: white;
 }
 
-.header-item {
+#header-top .header-item {
 margin: 8px 20px 0 0 ;
 float: left;
 font-size: 10pt;
 }
 
+#header-bottom {
+/* height:35px; */
+/* background: url("../img/header_bg.png") repeat-x; */
+background-color: #333;
+color: white;
+border-bottom: 2px solid black;
+padding: 0 0 0 20px;
+overflow: auto;
+}
+#header-bottom .header-item {
+margin: 4px 10px 5px 0 ;
+float: left;
+font-size: 11pt;
+}
+
 #container {
 /*width: 100%;*/
-padding: 0 15px 0 15px;
+padding: 0 15px 0 25px;
 }
 
 #menu {
@@ -64,9 +78,17 @@ float: left;
 font-size: 10pt;
 }
 
+#error-message {
+color: red;
+}
+
+#info-message {
+color: green;
+}
+
 #add-order {
 background-color: white;
-height: 360px;
+height: 330px;
 border-top: 1px solid black;
 border-bottom: 1px solid black;
 margin: 10px 0 30px 0;
@@ -100,14 +122,14 @@ width: 100%;
 
 #submit-order {
 float: left;
-margin: 25px 0 0 20px;
+margin: 10px 0 0 20px;
 /*width: 10%;*/
 font-size: 13pt;
 }
 
 #clean-order {
 float: left;
-margin: 25px 0 0 20px;
+margin: 10px 0 0 20px;
 /*width: 10%;*/
 font-size: 13pt;
 }
@@ -129,9 +151,11 @@ background-color: white;
 
 #client-info{
 margin: 10px 0 20px 0;
+background-color: white;
+border-top: 1px solid black;
 }
 #client-info fieldset {
-background-color: white;
+margin: 0 0 10px 0;
 }
 #client-info div {
 font-weight: bold;
@@ -141,10 +165,17 @@ float: left;
 /*width: 25%;*/
 margin: 0 15px 0 0;
 }
+.deleteclient {
+color: red;
+cursor: pointer;
+font-weight: bold;
+}
 
 
 #order-info{
 margin: 10px 0 20px 0;
+background-color: white;
+border-top: 1px solid black;
 }
 #order-info fieldset {
 background-color: white;
@@ -184,6 +215,7 @@ padding: 0 0 0 20px;
 }
 #orders-summary{
 margin: 0 0 15px;
+margin: 10px 0 0 0;
 }
 
 #order-list-table {
@@ -194,6 +226,7 @@ background-color: white;
 }
 
 #order-list-table th, #order-list-table td {
+border: 1px solid black;
 padding: 2px 5px 2px 5px;
 }
 #order-list-table th {
@@ -209,14 +242,32 @@ text-align: center;
 background-color: #FFC;
 }
 
-.deliveredajax {
+.orderoptions {
+padding: 0 0 0 10px;
+}
+.orderoptions img {
+margin: 0 3px 0 3px;
+padding: 1px 0 1px 2px;
 cursor: pointer;
-background-color: gray;
 }
 
-.orderlate, .orderlate:hover {
-background-color: #FAA;
+.orderlate {
+background-color: #FF8988;
 }
-.delivered, .delivered:hover {
+.orderlate:hover {
+background-color: #FF9989;
+}
+
+.orderready{
+background-color: #5CF;
+}
+.orderready:hover {
+background-color: #9EF;
+}
+
+.orderdelivered{
+background-color: #7F7;
+}
+.orderdelivered:hover {
 background-color: #AFA;
 }
