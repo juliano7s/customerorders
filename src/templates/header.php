@@ -16,11 +16,11 @@
 	</div>
 	
 	<div class="header-item" style="margin: 4px 20px 0 0;" >
-		Recebimento: <input id="reqdate-hdrsearch" name="reqdate" class="date" type="text" size="8" />
+		Recebimento: <input id="reqdate-hdrsearch" name="reqdate" class="date" type="text" size="10" />
 	</div>
 	
 	<div class="header-item" style="margin: 4px 20px 0 0;" >
-		Entregar em: <input id="dlvdate-hdrsearch" name="dlvdate" class="date" type="text" size="8" />
+		Entregar em: <input id="dlvdate-hdrsearch" name="dlvdate" class="date" type="text" size="10" />
 	</div>
 
 	<div class="header-item" style="margin: 4px 20px 0 0;" >

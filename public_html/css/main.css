@@ -179,6 +179,13 @@ background-color: white;
 width: 100%;
 }
 
+#orders-summary div{
+padding: 0 0 0 20px;
+}
+#orders-summary{
+margin: 0 0 15px;
+}
+
 #order-list-table {
 width: 100%;
 border-collapse: collapse;
@@ -187,11 +194,11 @@ background-color: white;
 }
 
 #order-list-table th, #order-list-table td {
-border: 1px solid black;
 padding: 2px 5px 2px 5px;
 }
 #order-list-table th {
 text-align: center;
+border: 1px solid black;
 }
 
 #order-list-table td.center {

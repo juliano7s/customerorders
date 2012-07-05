@@ -1,0 +1,4 @@
+
+conteudo de public_html/ -> copia e substitui -> c:/wamp/www/josi/
+
+conteudo de src/ -> copia e substitui -> c:/wamp/www/src/

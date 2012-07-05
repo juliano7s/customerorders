@@ -48,7 +48,7 @@ jQuery(function($) {
 	$(".date").mask("99/99/9999");
 	//$(".currency").mask("");
 	cleanClientForm();
-	cleanOrderForm();
+	//cleanOrderForm();
 
 	/* http://net.tutsplus.com/tutorials/javascript-ajax/how-to-use-the-jquery-ui-autocomplete-widget/ */
 	$("#client-name").autocomplete({
@@ -131,7 +131,7 @@ jQuery(function($) {
 			/* confirm if client is to be added */
 		});
 
-	$("#add-order").hide();
+	//$("#add-order").hide();
 	$("#hide-order").click(function() {
 		if ($("#add-order").is(":visible"))
 		{
@@ -237,7 +237,8 @@ function getClientInfo(_clientId)
 		<legend>Pedido</legend>
 		<table cellspacing="5px" class="add-order-table">
 		<tr>
-			<td>Recebimento: </td><td><input class="date" type="text" name="orderrequestdate" id="order-request-date" /></td>
+			<?php $today = new DateTime(); ?>
+			<td>Recebimento: </td><td><input class="date" type="text" name="orderrequestdate" id="order-request-date" value="<?php echo $today->format("d/m/Y"); ?>" /></td>
 			<td>Entregar em: </td><td><input class="date" type="text" name="orderdeliverydate" id="order-delivery-date" /></td>
 		</tr>
 		<tr>

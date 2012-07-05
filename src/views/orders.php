@@ -99,6 +99,19 @@ if (count($orders) > 0)
 		<th>Responsável</th>
 	</tr>
 
+	<div id="orders-summary">
+	<h4>Resumo:</h4>
+<?php
+	$valuesum = 0;
+	foreach ($orders as $order)
+	{
+		$valuesum += $order->getValue();
+	}
+	echo "<div>" . count($orders) . " ordens</div>";
+	echo "<div><b>Valor total:</b> R$ " . number_format($valuesum,2,'.','') . "</div>";
+?>
+	</div>
+
 <?php
 
 	/* Orders in a table */
@@ -117,8 +130,8 @@ if (count($orders) > 0)
 		<?php echo $order->getClient()->getName(); ?>
 		</a>
 		</td>
-		<td class="center"><?php if ($order->getRequestDate() != NULL) echo $reqDate->format("d/m/Y"); ?></td>
-		<td class="center"><?php if ($order->getDeliveryDate() != NULL) echo $dlvDate->format("d/m/Y"); ?></td>
+		<td class="center"><?php if ($order->getRequestDate() != NULL) echo "<a href=\"index.php?pid=orders&reqdate=" . $reqDate->format("d/m/Y") . "\">" . $reqDate->format("d/m/Y") . "</a>"; ?></td>
+		<td class="center"><?php if ($order->getDeliveryDate() != NULL) echo "<a href=\"index.php?pid=orders&dlvdate=" . $dlvDate->format("d/m/Y") . "\">" . $dlvDate->format("d/m/Y") . "</a>"; ?></td>
 		<td><?php echo "R$ " . str_replace('.',',',$order->getValue()); ?></td>
 		<td><?php echo "R$ " . str_replace('.',',',$order->getCost()); ?></td>
 		<td width="25%"><?php echo $order->getDescription(); ?></td>
@@ -133,4 +146,3 @@ if (count($orders) > 0)
 <?php
 } //end if (count($orders)
 ?>
-
