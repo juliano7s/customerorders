@@ -94,12 +94,12 @@ if (count($orders) > 0)
 	<div id="order-list">
 	<table id="order-list-table">
 	<tr>
-		<th width="25%">Cliente</th>
+		<th>Cliente</th>
 		<th>Recebimento</th>
 		<th>Entregar em</th>
 		<th>Valor</th>
 		<th>Sinal</th>
-		<th width="25%">Descrição</th>
+		<th>Descrição</th>
 		<th>Responsável</th>
 		<th>Editar</th>
 	</tr>
@@ -116,6 +116,7 @@ if (count($orders) > 0)
 	echo "<div><b>Valor total:</b> R$ " . number_format($valuesum,2,'.','') . "</div>";
 ?>
 	</div>
+	<br />
 
 <?php
 
@@ -137,7 +138,7 @@ if (count($orders) > 0)
 			$orderClass .= " orderdelivered";
 ?>
 		<tr id="order<?php echo $order->getId(); ?>" class="order-list-item <?php echo $orderClass;  ?>">
-		<td width="25%">
+		<td width="15%">
 			<a href="index.php?pid=orders&clientid=<?php echo $order->getClient()->getId() ?>">
 			<?php echo $order->getClient()->getName(); ?>
 			</a>
@@ -148,7 +149,7 @@ if (count($orders) > 0)
 		<td><?php if ($order->getCost() != NULL && trim($order->getCost() != "")) echo "R$ " . str_replace('.',',',$order->getCost()); ?></td>
 		<td width="25%"><?php echo $order->getDescription(); ?></td>
 		<td class="center"><?php echo $order->getOwner(); ?></td>
-		<td width="9%" class="orderoptions">
+		<td width="10%" class="orderoptions">
 			<img class="deliveredajax" title="Marcar pedido como entregue" src="img/Accept16.png" style="float: left; margin: 0 0 0 10px;" />
 			<img class="readyajax" src="img/Cut16.png" title="Marcar pedido como pronto" style="float: left"/>
 			<a href="index.php?pid=orders&orderid=<?php echo $order->getId(); ?>"><img title="Editar pedido" src="img/Edit16.png"  style="float: left"/></a>

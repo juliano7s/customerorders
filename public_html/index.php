@@ -241,7 +241,7 @@ jQuery(function($) {
 		{
 			if (!confirm("Deseja deletar o cliente?"))
 				return false;
-			if (!confirm("Todas as ordens do cliente serão também excluídas. Deletar mesmo assim?"))
+			if (!confirm("Todas os pedidos do cliente serão também excluídos. Deletar mesmo assim?"))
 				return false;
 			window.location.href = $(this).parent().attr("href");
 

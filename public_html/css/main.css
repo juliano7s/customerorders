@@ -15,7 +15,7 @@ html { height: 100%; }
 body {
 background: #e1e1e1;
 font-family:arial,verdana,helvetica,arial,sans-serif;
-font-size:13pt;
+font-size:12pt;
 color:#454545;
 margin: 0 auto;
 padding: 0 0 100px 0;
@@ -223,10 +223,10 @@ width: 100%;
 border-collapse: collapse;
 border: 1px solid black;
 background-color: white;
+font-size: 11pt;
 }
 
 #order-list-table th, #order-list-table td {
-border: 1px solid black;
 padding: 2px 5px 2px 5px;
 }
 #order-list-table th {
